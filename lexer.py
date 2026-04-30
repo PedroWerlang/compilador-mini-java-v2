@@ -36,9 +36,14 @@ def analisar_lexico(codigo_fonte):
         
     return tokens_encontrados
 
-# Teste rápido
-codigo_teste = "double valor = lerDouble(); if (valor >= 10.5) { System.out.println(valor); }"
-tokens = analisar_lexico(codigo_teste)
-
-for t in tokens:
-    print(t)
+if __name__ == '__main__':
+    # Abre o arquivo teste.txt que criamos
+    with open('teste.txt', 'r') as arquivo:
+        codigo_fonte = arquivo.read()
+    
+    # Chama a função e guarda o resultado na variável 'tokens'
+    tokens = analisar_lexico(codigo_fonte)
+    
+    # Imprime os tokens encontrados (note o recuo/espaço no começo da linha)
+    for t in tokens:
+        print(t)

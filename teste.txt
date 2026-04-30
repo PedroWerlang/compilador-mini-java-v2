@@ -1,0 +1,14 @@
+public class Fatorial { 
+    public static void main ( String [ ] args ) { 
+        double n, fat;
+        n = 5.0;
+        fat = 1.0;
+        
+        while (n > 0.0) {
+            fat = fat * n;
+            n = n - 1.0;
+        }
+        
+        System.out.println(fat);
+    } 
+}
