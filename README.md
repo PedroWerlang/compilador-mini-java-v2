@@ -2,7 +2,7 @@
 
 Projeto de construção de um compilador para a linguagem Mini-Java V2, desenvolvido para a disciplina de Projeto de Compiladores da Universidade Federal de Mato Grosso (UFMT) do Instituto de Computação (IC).
 
-## 🎯 Sobre o Projeto e Status
+## Sobre o Projeto e Status
 O objetivo deste trabalho é implementar um compilador completo, passando por todas as fases de análise e gerando código para uma Máquina Hipotética (Máquina à Pilha).
 
 **Fases do Compilador**
@@ -14,7 +14,7 @@ O objetivo deste trabalho é implementar um compilador completo, passando por to
 
 ---
 
-## 📁 Estrutura do Projeto e Arquivos
+## Estrutura do Projeto e Arquivos
 
 O projeto está organizado na seguinte estrutura de diretórios:
 ```text
@@ -40,7 +40,7 @@ O projeto está organizado na seguinte estrutura de diretórios:
 
 ---
 
-## 🚀 Como Executar
+## Como Executar
 
 O ciclo de vida do projeto exige que você possua o **Python 3** instalado em sua máquina. O fluxo de uso padrão segue os passos abaixo:
 
