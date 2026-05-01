@@ -5,7 +5,6 @@ s = -1
 
 
 def carregar_codigo(caminho_arquivo):
-    """Lê o arquivo de texto gerado pelo compilador e carrega no vetor C"""
     global C
     C = []
 
@@ -23,7 +22,6 @@ def carregar_codigo(caminho_arquivo):
 
 
 def executar():
-    """Interpretador principal que executa as instruções do vetor C"""
     global C, D, i, s
 
     while True:
@@ -84,8 +82,7 @@ def executar():
         elif comando == 'INVE':
             D[s] = -D[s]
 
-        # Comentados pois a gramática da linguagem não implementou &&, || e !
-        # (Alinhado com o professor que não será necessário gerar estas instruções)
+        # Não será utilizado essas intruções pois a gramática da linguagem não incluí as seguintes operações &&, || e !
 
         # elif comando == 'CONJ':
         #     if D[s - 1] == 1.0 and D[s] == 1.0:
@@ -104,7 +101,6 @@ def executar():
         # elif comando == 'NEGA':
         #     D[s] = 1.0 - D[s]
 
-        # --- Operações Relacionais ---
         elif comando == 'CPME':
             D[s - 1] = 1.0 if (D[s - 1] < D[s]) else 0.0
             s -= 1

@@ -22,8 +22,7 @@ class AnalisadorSintatico:
 
     def consome(self, tipo_esperado, valor_esperado=None):
         """
-        Verifica se o token atual é o esperado.
-        Se for, avança. Se não, dispara um Erro de Sintaxe.
+        Verifica se o token atual é o esperado. Se for, avança. Se não, dispara um Erro de Sintaxe.
         """
         if self.token_atual is None:
             raise SyntaxError(
@@ -39,7 +38,7 @@ class AnalisadorSintatico:
                 f"Erro Sintático: Esperava {tipo_esperado}{detalhe}, mas encontrou {tipo} '{valor}'")
 
     def espiar(self):
-        """Devolve o tipo e valor do token atual com segurança, sem risco de dar erro no Python."""
+        """Devolve o tipo e valor do token atual"""
         if self.token_atual is None:
             return None, None
 
