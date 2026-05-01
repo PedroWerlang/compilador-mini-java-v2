@@ -84,8 +84,6 @@ def executar():
         elif comando == 'INVE':
             D[s] = -D[s]
 
-        # --- Operações Lógicas ---
-        # --- OPERADORES LÓGICOS (Desativados) ---
         # Comentados pois a gramática da linguagem não implementou &&, || e !
         # (Alinhado com o professor que não será necessário gerar estas instruções)
 
