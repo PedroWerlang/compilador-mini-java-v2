@@ -129,13 +129,12 @@ def executar():
             D[s - 1] = 1.0 if (D[s - 1] >= D[s]) else 0.0
             s -= 1
 
-        # --- Desvios (Jumps) ---
         elif comando == 'DSVI':
             i = int(param)
 
         elif comando == 'DSVF':
             if D[s] == 0.0:
-                i = int(param)  # Removemos o "- 1"
+                i = int(param)
             s -= 1
 
         elif comando == 'LEIT':
@@ -153,6 +152,5 @@ def executar():
 
 
 if __name__ == '__main__':
-    # O '..' sai da pasta 'src' e entra na pasta 'teste'
     carregar_codigo('io/codigo_objeto.txt')
     executar()
