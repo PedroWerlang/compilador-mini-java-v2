@@ -5,7 +5,7 @@ Projeto de construção de um compilador para a linguagem Mini-Java V2, desenvol
 ## 🎯 Sobre o Projeto e Status
 O objetivo deste trabalho é implementar um compilador completo, passando por todas as fases de análise e gerando código para uma Máquina Hipotética (Máquina à Pilha).
 
-**Fases do Compilador:**
+**Fases do Compilador**
 - [x] **Analisador Léxico:**
 - [x] **Analisador Sintático:**
 - [x] **Analisador Semântico:**
@@ -47,11 +47,9 @@ O ciclo de vida do projeto exige que você possua o **Python 3** instalado em su
 ### 1. Preparar o Código-Fonte
 Escreva o seu programa em linguagem Mini-Java dentro do arquivo `io/codigo_fonte.txt` e salve.
 
-### 2. Compilar (Gerar o Código Objeto)
-No terminal, na raiz do projeto, execute o analisador sintático para varrer o código, validar as regras e traduzi-lo:
+### 2. Executar a Pipeline Completa
+No terminal, na raiz do projeto, execute o script principal. Ele fará a varredura do código, a validação das regras e, em seguida, iniciará a máquina virtual automaticamente:
 ```bash
 python src/sintatico_semantico.py
 ```
-*Se não houver erros de sintaxe ou de variáveis não declaradas, o sistema exibirá uma mensagem de sucesso e criará/atualizará o arquivo `codigo_objeto.txt`.*
-
-*O terminal exibirá os logs de sucesso da análise sintática/semântica e, em seguida, a máquina virtual solicitará as entradas de dados (função `lerDouble`) e imprimirá os resultados na tela.*
+*Se não houver erros de sintaxe ou variáveis não declaradas, o terminal exibirá as mensagens de sucesso, criará o arquivo `codigo_objeto.txt` e a máquina virtual solicitará as entradas de dados (função `lerDouble`), imprimindo os resultados na tela.
