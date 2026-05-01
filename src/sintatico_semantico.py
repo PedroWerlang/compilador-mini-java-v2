@@ -1,4 +1,5 @@
 from lexico import analisar_lexico
+import os
 
 
 class AnalisadorSintatico:
@@ -6,6 +7,10 @@ class AnalisadorSintatico:
         self.tokens = tokens
         self.posicao = 0
         self.token_atual = self.tokens[self.posicao] if self.tokens else None
+
+        self.tabela_simbolos = {}
+        self.codigo_gerado = []
+        self.contador_endereco = 0
 
     def avancar(self):
         """Avança o ponteiro para o próximo token da lista."""
@@ -42,17 +47,18 @@ class AnalisadorSintatico:
 
     def analisar(self):
         """Função principal que dá o pontapé inicial na análise."""
-        print("Iniciando análise sintática...")
         self.regra_prog()
 
         if self.token_atual is not None:
             raise SyntaxError(
                 f"Erro Sintático: Código extra no final do arquivo.")
 
-        print("Análise sintática concluída com SUCESSO!")
+        print("✓ Análise Sintática e Semântica concluídas com SUCESSO!")
 
     def regra_prog(self):
         """ PROG -> public class id { public static void main ( String [ ] id ) { <CMDS> } } """
+
+        self.codigo_gerado.append("INPP")
 
         self.consome('RESERVADA', 'public')
         self.consome('RESERVADA', 'class')
@@ -72,6 +78,8 @@ class AnalisadorSintatico:
         self.regra_cmds()
         self.consome('DELIMITADOR', '}')
         self.consome('DELIMITADOR', '}')
+
+        self.codigo_gerado.append("PARA")
 
     def regra_cmds(self):
         """ CMDS -> <CMD><MAIS_CMDS> | <CMD_COND><CMDS> | <DC> | λ """
@@ -107,8 +115,33 @@ class AnalisadorSintatico:
 
     def regra_vars(self):
         """ VARS -> id <MAIS_VAR> """
-        self.consome('ID')
-        self.regra_mais_var()
+
+        tipo, valor = self.espiar()
+
+        if tipo == 'ID':
+            nome_variavel = valor
+
+            if nome_variavel in self.tabela_simbolos:
+                raise Exception(
+                    f"Erro Semântico: A variável '{nome_variavel}' já foi declarada anteriormente!")
+            else:
+                self.tabela_simbolos[nome_variavel] = {
+                    'tipo': 'double',
+                    'end_rel': self.contador_endereco
+                }
+
+                self.codigo_gerado.append("ALME 1")
+                self.contador_endereco += 1
+
+            self.consome('ID')
+            self.regra_mais_var()
+
+        else:
+            if tipo is None:
+                raise SyntaxError(
+                    "Erro Sintático: Fim inesperado. Esperava um identificador (variável).")
+            raise SyntaxError(
+                f"Erro Sintático: Esperava um identificador, encontrou '{valor}'")
 
     def regra_mais_var(self):
         """ MAIS_VAR -> , <VARS> | λ """
@@ -137,19 +170,44 @@ class AnalisadorSintatico:
             self.consome('DELIMITADOR', '(')
             self.regra_condicao()
             self.consome('DELIMITADOR', ')')
+
+            idx_dsvf = len(self.codigo_gerado)
+            self.codigo_gerado.append("DSVF ?")
+
             self.consome('DELIMITADOR', '{')
             self.regra_cmds()
             self.consome('DELIMITADOR', '}')
+
+            idx_dsvi = len(self.codigo_gerado)
+            self.codigo_gerado.append("DSVI ?")
+
+            linha_else = len(self.codigo_gerado)
+            self.codigo_gerado[idx_dsvf] = f"DSVF {linha_else}"
+
             self.regra_pfalsa()
 
+            linha_fim = len(self.codigo_gerado)
+            self.codigo_gerado[idx_dsvi] = f"DSVI {linha_fim}"
+
         elif tipo == 'RESERVADA' and valor == 'while':
+            linha_inicio_while = len(self.codigo_gerado)
+
             self.consome('RESERVADA', 'while')
             self.consome('DELIMITADOR', '(')
             self.regra_condicao()
             self.consome('DELIMITADOR', ')')
+
+            idx_dsvf = len(self.codigo_gerado)
+            self.codigo_gerado.append("DSVF ?")
+
             self.consome('DELIMITADOR', '{')
             self.regra_cmds()
             self.consome('DELIMITADOR', '}')
+
+            self.codigo_gerado.append(f"DSVI {linha_inicio_while}")
+
+            linha_fim_while = len(self.codigo_gerado)
+            self.codigo_gerado[idx_dsvf] = f"DSVF {linha_fim_while}"
 
         else:
             if tipo is None:
@@ -169,9 +227,20 @@ class AnalisadorSintatico:
             self.regra_expressao()
             self.consome('DELIMITADOR', ')')
 
+            self.codigo_gerado.append("IMPR")
+
         elif tipo == 'ID':
+            nome_variavel = valor
+
+            if nome_variavel not in self.tabela_simbolos:
+                raise Exception(
+                    f"Erro Semântico: A variável '{nome_variavel}' não foi declarada antes de receber um valor!")
+
             self.consome('ID')
             self.regra_resto_ident()
+
+            endereco = self.tabela_simbolos[nome_variavel]['end_rel']
+            self.codigo_gerado.append(f"ARMZ {endereco}")
 
         else:
 
@@ -210,6 +279,8 @@ class AnalisadorSintatico:
             self.consome('DELIMITADOR', '(')
             self.consome('DELIMITADOR', ')')
 
+            self.codigo_gerado.append("LEIT")
+
         elif tipo in ['NUMERO_REAL', 'ID'] or (tipo == 'DELIMITADOR' and valor == '(') or valor == '-':
             self.regra_expressao()
 
@@ -224,8 +295,23 @@ class AnalisadorSintatico:
         """ CONDICAO -> <EXPRESSAO> <RELACAO> <EXPRESSAO> """
 
         self.regra_expressao()
+
+        tipo, valor = self.espiar()
+        operador = valor
+
         self.regra_relacao()
         self.regra_expressao()
+
+        mapa_relacao = {
+            '==': 'CPIG',
+            '!=': 'CDES',
+            '<':  'CPME',
+            '>':  'CPMA',
+            '<=': 'CPMI',
+            '>=': 'CMAI'
+        }
+        if operador in mapa_relacao:
+            self.codigo_gerado.append(mapa_relacao[operador])
 
     def regra_relacao(self):
         """ RELACAO -> == | != | >= | <= | > | < """
@@ -254,8 +340,16 @@ class AnalisadorSintatico:
     def regra_termo(self):
         """ TERMO -> <OP_UN> <FATOR> <MAIS_FATORES> """
 
+        tipo, valor = self.espiar()
+        tem_menos_unario = (valor == '-')
+
         self.regra_op_un()
+
         self.regra_fator()
+
+        if tem_menos_unario:
+            self.codigo_gerado.append("INVE")
+
         self.regra_mais_fatores()
 
     def regra_op_un(self):
@@ -270,14 +364,24 @@ class AnalisadorSintatico:
 
     def regra_fator(self):
         """ FATOR -> id | numero_real | (<EXPRESSAO>) """
-
         tipo, valor = self.espiar()
 
         if tipo == 'ID':
+            nome_variavel = valor
+            if nome_variavel not in self.tabela_simbolos:
+                raise Exception(
+                    f"Erro Semântico: A variável '{nome_variavel}' não foi declarada antes de ser usada na conta!")
+
             self.consome('ID')
 
+            endereco = self.tabela_simbolos[nome_variavel]['end_rel']
+            self.codigo_gerado.append(f"CRVL {endereco}")
+
         elif tipo == 'NUMERO_REAL':
+            valor_numero = valor
             self.consome('NUMERO_REAL')
+
+            self.codigo_gerado.append(f"CRCT {valor_numero}")
 
         elif tipo == 'DELIMITADOR' and valor == '(':
             self.consome('DELIMITADOR', '(')
@@ -297,8 +401,15 @@ class AnalisadorSintatico:
         tipo, valor = self.espiar()
 
         if valor in ['+', '-']:
+            operador = valor
             self.regra_op_ad()
             self.regra_termo()
+
+            if operador == '+':
+                self.codigo_gerado.append("SOMA")
+            else:
+                self.codigo_gerado.append("SUBT")
+
             self.regra_outros_termos()
 
         else:
@@ -325,8 +436,15 @@ class AnalisadorSintatico:
         tipo, valor = self.espiar()
 
         if valor in ['*', '/']:
+            operador = valor
             self.regra_op_mul()
             self.regra_fator()
+
+            if operador == '*':
+                self.codigo_gerado.append("MULT")
+            else:
+                self.codigo_gerado.append("DIVI")
+
             self.regra_mais_fatores()
 
         else:
@@ -349,10 +467,18 @@ class AnalisadorSintatico:
 
 
 if __name__ == '__main__':
-    with open('testes/teste.txt', 'r') as arquivo:
+    with open('io/codigo_fonte.txt', 'r') as arquivo:
         codigo = arquivo.read()
-    print("Executando Léxico...")
+
+    print("[Compilador Mini-Java] Iniciando pipeline de compilação...")
+    print("✓ Analisador Léxico executado.")
     lista_de_tokens = analisar_lexico(codigo)
 
     sintatico = AnalisadorSintatico(lista_de_tokens)
     sintatico.analisar()
+
+    print("\n✓ Arquivo 'codigo_objeto.txt' gerado com sucesso na pasta 'io'.")
+    print("\n" + "="*45)
+    print("      INICIANDO A MÁQUINA VIRTUAL MAQHIPO      ")
+    print("="*45 + "\n")
+    os.system('python src/maqhipo.py')

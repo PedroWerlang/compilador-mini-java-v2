@@ -85,22 +85,26 @@ def executar():
             D[s] = -D[s]
 
         # --- Operações Lógicas ---
-        elif comando == 'CONJ':
-            if D[s - 1] == 1.0 and D[s] == 1.0:
-                D[s - 1] = 1.0
-            else:
-                D[s - 1] = 0.0
-            s -= 1
+        # --- OPERADORES LÓGICOS (Desativados) ---
+        # Comentados pois a gramática da linguagem não implementou &&, || e !
+        # (Alinhado com o professor que não será necessário gerar estas instruções)
 
-        elif comando == 'DISJ':
-            if D[s - 1] == 1.0 or D[s] == 1.0:
-                D[s - 1] = 1.0
-            else:
-                D[s - 1] = 0.0
-            s -= 1
-
-        elif comando == 'NEGA':
-            D[s] = 1.0 - D[s]
+        # elif comando == 'CONJ':
+        #     if D[s - 1] == 1.0 and D[s] == 1.0:
+        #         D[s - 1] = 1.0
+        #     else:
+        #         D[s - 1] = 0.0
+        #     s -= 1
+        #
+        # elif comando == 'DISJ':
+        #     if D[s - 1] == 1.0 or D[s] == 1.0:
+        #         D[s - 1] = 1.0
+        #     else:
+        #         D[s - 1] = 0.0
+        #     s -= 1
+        #
+        # elif comando == 'NEGA':
+        #     D[s] = 1.0 - D[s]
 
         # --- Operações Relacionais ---
         elif comando == 'CPME':
@@ -129,12 +133,11 @@ def executar():
 
         # --- Desvios (Jumps) ---
         elif comando == 'DSVI':
-            i = int(param) - 1
+            i = int(param)
 
         elif comando == 'DSVF':
-            p = int(param) - 1
             if D[s] == 0.0:
-                i = p
+                i = int(param)  # Removemos o "- 1"
             s -= 1
 
         elif comando == 'LEIT':
@@ -153,5 +156,5 @@ def executar():
 
 if __name__ == '__main__':
     # O '..' sai da pasta 'src' e entra na pasta 'teste'
-    carregar_codigo('../teste/codigo_objeto.txt')
+    carregar_codigo('io/codigo_objeto.txt')
     executar()

@@ -1,0 +1,30 @@
+public class AproximacaoPi {
+    public static void main(String[] args) {
+        double iteracoes;
+        double cont, soma, divisor, sinal, termo, pi;
+        
+        System.out.println(0);
+        iteracoes = lerDouble(); 
+        
+        if (iteracoes > 0) {
+            cont = iteracoes;
+            soma = 0;
+            divisor = 1;
+            sinal = 1;
+            while (cont > 0) {
+                termo = sinal / divisor; 
+                soma = soma + termo;     
+                divisor = divisor + 2;   
+                sinal = -sinal;          
+                cont = cont - 1;         
+            }
+            pi = soma * 4; 
+
+            System.out.println(pi); 
+            
+        } else {
+            sinal = -1;
+            System.out.println(sinal);
+        }
+    }
+}
