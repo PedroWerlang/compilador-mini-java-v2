@@ -2,26 +2,23 @@
 
 Projeto de construção de um compilador para a linguagem Mini-Java V2, desenvolvido para a disciplina de Projeto de Compiladores da Universidade Federal de Mato Grosso (UFMT) do Instituto de Computação (IC).
 
-## Sobre o Projeto
+## 🎯 Sobre o Projeto e Status
 O objetivo deste trabalho é implementar um compilador completo, passando por todas as fases de análise e gerando código para uma Máquina Hipotética.
 
-### Fases do Compilador:
-- [ ] **Analisador Léxico:** (Em desenvolvimento)
-- [ ] **Analisador Sintático:** (Pendente)
-- [ ] **Analisador Semântico:** (Pendente)
-- [ ] **Geração de Código (Máquina Hipotética):** (Pendente)
-- [ ] **Execução da Máquina Hipotética:** (Pendente)
+**Fases do Compilador:**
+- [x] **Analisador Léxico:** Concluído (Tokenização com classificação via Regex)
+- [x] **Analisador Sintático:** Concluído (Análise Descendente Recursiva e tratamento de erros)
+- [ ] **Analisador Semântico:** Pendente
+- [ ] **Geração de Código (Máquina Hipotética):** Pendente
+- [ ] **Execução da Máquina Hipotética:** Pendente
 
-## Como Executar
-
-### Pré-requisitos
-- Python 3.x instalado em sua máquina.
-
-### Executando a Análise
-Por enquanto, o projeto realiza a análise léxica a partir de um arquivo de texto contendo o código fonte em Mini-Java.
-
-1. Clone o repositório ou baixe os arquivos.
-2. No terminal, navegue até a pasta do projeto.
-3. Execute o comando abaixo, passando o arquivo de teste como parâmetro (em breve):
-   ```bash
-   python lexer.py teste.txt
+## 📁 Estrutura do Projeto
+```text
+/
+├── src/
+│   ├── lexico.py         # Lógica de varredura e geração de tokens
+│   └── sintatico.py      # Lógica de validação gramatical e recursão
+├── teste/
+│   ├── teste.txt         # Arquivo de entrada com o código-fonte Mini-Java
+│   └── codigo_objeto.txt # Arquivo de saída gerado com o código da Máquina Hipotética
+└── README.md

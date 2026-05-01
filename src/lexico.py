@@ -41,7 +41,6 @@ def analisar_lexico(codigo_fonte):
 
     return tokens_encontrados
 
-
 if __name__ == '__main__':
     with open('testes/teste.txt', 'r') as arquivo:
 
