@@ -52,4 +52,4 @@ No terminal, na raiz do projeto, execute o script principal. Ele fará a varredu
 ```bash
 python src/sintatico_semantico.py
 ```
-*Se não houver erros de sintaxe ou variáveis não declaradas, o terminal exibirá as mensagens de sucesso, criará o arquivo `codigo_objeto.txt` e a máquina virtual solicitará as entradas de dados (função `lerDouble`), imprimindo os resultados na tela.
+* Se não houver erros de sintaxe ou variáveis não declaradas, o terminal exibirá as mensagens de sucesso, criará o arquivo `codigo_objeto.txt` e a máquina virtual solicitará as entradas de dados (função `lerDouble`), imprimindo os resultados na tela.
