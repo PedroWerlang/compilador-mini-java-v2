@@ -19,13 +19,14 @@ O objetivo deste trabalho é implementar um compilador completo, passando por to
 O projeto está organizado na seguinte estrutura de diretórios:
 ```text
 /
-├── src/
-│   ├── lexico.py         
-│   ├── sintatico_semantico.py      
-│   └── maqhipo.py        
 ├── io/
 │   ├── codigo_fonte.txt         
 │   └── codigo_objeto.txt 
+├── src/
+│   ├── lexico.py         
+│   ├── maqhipo.py      
+│   └── sintatico_semantico.py 
+├── .gitignore
 └── README.md
 ```
 

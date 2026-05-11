@@ -2,7 +2,7 @@ from lexico import analisar_lexico
 import os
 
 
-class AnalisadorSintatico:
+class AnalisadorSintaticoSemantico:
     def __init__(self, tokens):
         self.tokens = tokens
         self.posicao = 0
@@ -473,7 +473,7 @@ if __name__ == '__main__':
     print("✓ Analisador Léxico executado.")
     lista_de_tokens = analisar_lexico(codigo)
 
-    sintatico = AnalisadorSintatico(lista_de_tokens)
+    sintatico = AnalisadorSintaticoSemantico(lista_de_tokens)
     sintatico.analisar()
 
     print("\n✓ Arquivo 'codigo_objeto.txt' gerado com sucesso na pasta 'io'.")
