@@ -8,7 +8,7 @@ def carregar_codigo(caminho_arquivo):
     global C
     C = []
 
-    with open(caminho_arquivo, 'r') as arquivo:
+    with open(caminho_arquivo, 'r', encoding='utf-8') as arquivo:
         for linha in arquivo:
             linha = linha.strip()
             if not linha:

@@ -1,5 +1,7 @@
 # Compilador Mini-Java V2
 
+**Repositório Oficial:** [https://github.com/PedroWerlang/compilador-mini-java-v2](https://github.com/PedroWerlang/compilador-mini-java-v2)
+
 Projeto de construção de um compilador para a linguagem Mini-Java V2, desenvolvido para a disciplina de Projeto de Compiladores da Universidade Federal de Mato Grosso (UFMT) do Instituto de Computação (IC).
 
 ## Sobre o Projeto e Status
@@ -53,4 +55,4 @@ No terminal, na raiz do projeto, execute o script principal. Ele fará a varredu
 ```bash
 python src/sintatico_semantico.py
 ```
-* Se não houver erros de sintaxe ou variáveis não declaradas, o terminal exibirá as mensagens de sucesso, criará o arquivo `codigo_objeto.txt` e a máquina virtual solicitará as entradas de dados (função `lerDouble`), imprimindo os resultados na tela.
+* Se não houver erros de sintaxe ou variáveis não declaradas, o terminal exibirá as mensagens de sucesso, criará o arquivo `codigo_objeto.txt` e a máquina virtual solicitará as entradas de dados, imprimindo os resultados na tela.

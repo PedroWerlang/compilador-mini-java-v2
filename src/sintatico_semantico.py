@@ -466,7 +466,7 @@ class AnalisadorSintaticoSemantico:
 
 
 if __name__ == '__main__':
-    with open('io/codigo_fonte.txt', 'r') as arquivo:
+    with open('io/codigo_fonte.txt', 'r', encoding='utf-8-sig') as arquivo:
         codigo = arquivo.read()
 
     print("[Compilador Mini-Java] Iniciando pipeline de compilação...")
@@ -475,6 +475,10 @@ if __name__ == '__main__':
 
     sintatico = AnalisadorSintaticoSemantico(lista_de_tokens)
     sintatico.analisar()
+
+    with open('io/codigo_objeto.txt', 'w', encoding='utf-8') as f_out:
+        for instrucao in sintatico.codigo_gerado:
+            f_out.write(instrucao + '\n')
 
     print("\n✓ Arquivo 'codigo_objeto.txt' gerado com sucesso na pasta 'io'.")
     print("\n" + "="*45)
